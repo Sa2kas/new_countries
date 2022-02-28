@@ -1,32 +1,36 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="header">
+      <img src="./assets/Teltonika.png" alt="Teltonika" id="name">
     </div>
     <router-view />
   </div>
 </template>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  justify-content: center;
+  align-content: center;
+  /* caret-color: rgba(0,0,0,0); paslepia mirksintį cursor'ių */
 }
-
-#nav {
-  padding: 30px;
+#header { 
+  position: relative;
+  height: 71px;
+  left: 0px;
+  top: 0px;
+  background: #0053a6;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+#name {
+  position: relative;
+  width: 142.77px;
+  height: 28px;
+  margin-top:20px;
+  margin-left: min(367px, 19vw);
+  float: left;
 }
 </style>

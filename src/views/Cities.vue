@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="cities">
     <Notification
       v-show="isNotificationVisible"
       @close="closeNotification"
@@ -8,35 +8,25 @@
         {{ message }}
       </template>
     </Notification>
-
     <Title
-      prop_title="šalys"
-      prop_modal_title="Pridėti šalį"
-      prop_modal_type="country"
+      :prop_title="prop_item.attributes.name"
+      prop_modal_title="Pridėti miestą"
+      prop_modal_type="city"
       :prop_modal_post_url="this.url"
       @open="showNotification"
     />
-    <Search
-      @refList="getCountries()"
-      :prop_link="this.url"
-      prop_type="countries"
-      @open="showNotification"
-    />
+    <Search @refList="getCities()" :prop_link="this.url" prop_type="cities" />
     <Table
-      prop_code="šalies tel. kodas"
-      :items="countries"
-      @refList="getCountries()"
+      prop_code="miesto pašto kodas"
+      :items="cities"
+      @refList="getCities()"
       :prop_modal_url="this.url"
       prop
-      _modal_title="Redaguoti šalį"
-      prop_modal_type="country"
+      _modal_title="Redaguoti miestą"
+      prop_modal_type="city"
       @open="showNotification"
     />
-    <Pagination
-      :prop_urls="urls"
-      @refList="getCountries()"
-      prop_type="country"
-    />
+    <Pagination :prop_urls="urls" @refList="getCities()" prop_type="city" />
   </div>
 </template>
 
@@ -60,31 +50,38 @@ export default {
   mixins: [notifMixin],
   data() {
     return {
-      countries: [],
+      cities: [],
       urls: [],
-      url: this.$globalData.defaultUrl,
+      url: this.prop_item.relationships.cities.links.related,
       message: "",
     };
   },
+  props: {
+    prop_item: {
+      type: Object,
+      require: true,
+    },
+  },
   methods: {
-    async getCountries() {
+    async getCities() {
       try {
-        var response = await axios.get(this.$globalData.url);
-        this.countries = response.data.data;
+        var response = await axios.get(this.$globalData.citiesUrl);
+        this.cities = response.data.data;
         this.urls = response.data.meta.links;
       } catch (error) {
-        this.showNotification("Nepavyko gauti šalių duomenų!");
+        this.showNotification("Nepavyko gauti miestų duomenų!");
       }
     },
   },
   created() {
-    this.getCountries();
-    this.$globalData.url = this.$globalData.defaultUrl;
+    this.$globalData.citiesUrl =
+      this.prop_item.relationships.cities.links.related;
+    this.getCities();
   },
 };
 </script>
 <style scoped>
-.home {
+.cities {
   padding: 45px min(376px, 19.58vw) 50px min(359px, 18.698vw);
 }
 </style>
