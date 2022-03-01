@@ -80,8 +80,8 @@ export default {
 }
 .confirmation {
   background: #ffffff;
-  width: 356px;
-  height: 160px;
+  width: 360px;
+  height: 170px;
   position: fixed;
   top: auto;
   left: auto;
